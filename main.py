@@ -1,5 +1,6 @@
 import os
 import re
+from collections import Counter
 
 n_total = 0
 n_num = 0  # numeriques
@@ -10,6 +11,7 @@ n_lowercase = 0  # todas minusculas
 n_uppercase = 0  # todas mayusculas
 n_capitalized = 0  # primera mayuscula
 
+n_most_commons = {}
 
 def isnumber(string):
     try:
@@ -57,7 +59,6 @@ def first_minus_all_mayus(string):
 
 folder_path = "pass/"
 files = os.listdir(folder_path)
-
 for file in files:
     full_path = os.path.join(folder_path, file)
     with open(full_path, "r", encoding="iso-8859-1") as f:
@@ -74,6 +75,11 @@ for file in files:
             else:
                 print("Password not found")
                 break
+            
+            if contraseña in n_most_commons:
+              n_most_commons[contraseña] += 1
+            else:
+              n_most_commons[contraseña] = 1
 
             n_total += 1
             if isnumber(contraseña):
@@ -91,6 +97,7 @@ for file in files:
             if first_minus_all_mayus(contraseña):
                 n_capitalized += 1
 
+n_most_commons = dict(sorted(n_most_commons.values(), reverse=True))
 print("END SCAN")
 print("Total:", n_total)
 print("Numerica:", n_num)
@@ -100,3 +107,6 @@ print("Cotiene un año entre 1900 and 2100:", n_century)
 print("Minusculas:", n_lowercase)
 print("Mayuscula:", n_uppercase)
 print("Primera mayuscula:", n_capitalized)
+print()
+print("30 contraseñas mas comunes:")
+print(n_most_commons[:30])
