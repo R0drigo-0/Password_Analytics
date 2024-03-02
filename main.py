@@ -3,6 +3,7 @@ import re
 import time
 from statistics import median
 from collections import Counter
+import matplotlib.pyplot as plt
 
 
 start_time = time.perf_counter()
@@ -28,6 +29,7 @@ n_capitalized = 0  # primera mayuscula
 most_commons_pass = {}
 length_pass = {}
 digit_counter = {}
+year_counter = {}
 
 
 def isnumber(string):
@@ -53,7 +55,10 @@ def is_alphanumeric(string):
 def contains_year(string):
     pattern = r"(?:19|20)\d{2}"
     match = re.search(pattern, string)
-    return bool(match)
+    if match:
+        return int(match.group())
+    else:
+        return None
 
 
 def all_minus(string):
@@ -97,7 +102,7 @@ for file in files:
             length_pass[len(contraseña)] = length_pass.get(len(contraseña), 0) + 1
             for d in contraseña:
                 if isnumber(d):
-                    digit_counter[d] = digit_counter.get(d,0) + 1
+                    digit_counter[d] = digit_counter.get(d, 0) + 1
 
             n_total += 1
             if isnumber(contraseña):
@@ -106,15 +111,16 @@ for file in files:
                 n_alfa += 1
             if is_alphanumeric(contraseña):
                 n_alpha += 1
-            if contains_year(contraseña):
+            tmp_year = contains_year(contraseña)
+            if tmp_year:
                 n_century += 1
+                year_counter[tmp_year] = year_counter.get(tmp_year, 0) + 1
             if all_minus(contraseña):
                 n_lowercase += 1
             if all_mayus(contraseña):
                 n_uppercase += 1
             if first_minus_all_mayus(contraseña):
                 n_capitalized += 1
-                elapsed_time = time.perf_counter() - start_time
 
 most_commons_pass = sorted(most_commons_pass.items(), key=lambda x: x[1], reverse=True)
 most_commons_pass = most_commons_pass[:30]
@@ -131,7 +137,10 @@ second_element_length_pass = [x[1] for x in length_pass]
 second_element_length_pass = {length for length in second_element_length_pass}
 median_pass = median(second_element_length_pass)
 
-digit_counter = sorted(digit_counter.items(), key=lambda x: x[0], reverse=False)
+digit_counter = sorted(digit_counter.items(), key=lambda x: x[1], reverse=True)
+
+year_counter = sorted(year_counter.items(), key=lambda x : x[1], reverse= True)
+year_counter = year_counter[:30]
 
 
 print("END SCAN")
@@ -157,4 +166,5 @@ print()
 print("Numero de apariciones digito:")
 print(digit_counter)
 print()
-
+print("30 años mas comunes: ")
+print(year_counter)
