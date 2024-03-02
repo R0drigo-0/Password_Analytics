@@ -168,3 +168,25 @@ print(digit_counter)
 print()
 print("30 años mas comunes: ")
 print(year_counter)
+
+length, freq = zip(*length_pass)
+plt.bar(length, freq)
+plt.xlabel("Password Length")
+plt.ylabel("Frequency")
+plt.title("Histogram of Password Lengths")
+plt.grid(True)
+plt.show()
+
+# --- Bar plot for digit repetitions ---
+plt.bar(*zip(*digit_counter))
+plt.xlabel("Digit")
+plt.ylabel("Count")
+plt.title("Repetition of Digits in Passwords")
+plt.show()
+
+# --- Bar plot for most common years ---
+plt.bar(*zip(*year_counter))
+plt.xlabel("Year")
+plt.ylabel("Count")
+plt.title("30 Most Common Years in Passwords")
+plt.show()
