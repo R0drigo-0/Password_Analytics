@@ -1,2 +1,8 @@
-/pass
-/tmp
+# Ignore everything
+*
+
+# Un-ignore Python files
+!*.py
+
+# Include the .gitignore file itself
+!.gitignore

@@ -1,12 +1,8 @@
 import os
 import re
-import time
 from statistics import median
-from collections import Counter
 import matplotlib.pyplot as plt
 
-
-start_time = time.perf_counter()
 
 """
 Format file:
@@ -177,14 +173,12 @@ plt.title("Histogram of Password Lengths")
 plt.grid(True)
 plt.show()
 
-# --- Bar plot for digit repetitions ---
 plt.bar(*zip(*digit_counter))
 plt.xlabel("Digit")
 plt.ylabel("Count")
 plt.title("Repetition of Digits in Passwords")
 plt.show()
 
-# --- Bar plot for most common years ---
 plt.bar(*zip(*year_counter))
 plt.xlabel("Year")
 plt.ylabel("Count")
