@@ -3,7 +3,6 @@
 
 # Un-ignore Python files
 !*.py
-!punkt
 
 # Include the .gitignore file itself
 !.gitignore

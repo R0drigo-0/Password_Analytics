@@ -42,20 +42,12 @@ def calculate_distance_matrix(sentence1_embeddings, sentence2_embeddings):
 
 
 def word_mover_distance(sentence1, sentence2):
-    # Preprocessing
-    sentence1_tokens = [
-        word for word in word_tokenize(sentence1.lower())
-    ]
-    sentence2_tokens = [
-        word for word in word_tokenize(sentence2.lower())
-    ]
-
     # Obtain word embeddings for each token in the sentences
     sentence1_embeddings = np.array(
-        [get_word_embedding(word) for word in sentence1_tokens]
+        [get_word_embedding(sentence1)]
     )
     sentence2_embeddings = np.array(
-        [get_word_embedding(word) for word in sentence2_tokens]
+        [get_word_embedding(sentence2)]
     )
 
     # Calculate the distance matrix between embeddings
