@@ -112,13 +112,12 @@ for correo, contraseñas in same_user.items():
     for i in range(len(contraseñas)):
         for j in range(i + 1, len(contraseñas)):
             distancia_wm = word_mover_distance(contraseñas[i], contraseñas[j])
-            if distancia_wm <= 0.5:
+            if distancia_wm <= 0.1:
                 related_passwords.append(contraseñas[i])
                 related_passwords.append(contraseñas[j])
     # Remove duplicates and keep the order of insertion
     related_passwords = list(dict.fromkeys(related_passwords))
     if related_passwords:
-        print(related_passwords)
         worksheet.cell(row=row_index, column=1).value = correo
         worksheet.cell(row=row_index, column=2).value = ", ".join(related_passwords)
         row_index += 1
