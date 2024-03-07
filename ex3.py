@@ -2,7 +2,6 @@ import os
 import nltk
 import numpy as np
 import openpyxl
-from nltk.corpus import stopwords
 from gensim.models import Word2Vec
 from nltk.tokenize import word_tokenize
 from gensim.test.utils import common_texts
@@ -44,12 +43,11 @@ def calculate_distance_matrix(sentence1_embeddings, sentence2_embeddings):
 
 def word_mover_distance(sentence1, sentence2):
     # Preprocessing
-    stop_words = set(stopwords.words("english"))
     sentence1_tokens = [
-        word for word in word_tokenize(sentence1.lower()) if word not in stop_words
+        word for word in word_tokenize(sentence1.lower())
     ]
     sentence2_tokens = [
-        word for word in word_tokenize(sentence2.lower()) if word not in stop_words
+        word for word in word_tokenize(sentence2.lower())
     ]
 
     # Obtain word embeddings for each token in the sentences
@@ -93,21 +91,22 @@ for file in files:
                 print("Password not found")
                 break
 
-            if correo not in same_user:
-                same_user[correo] = []
-            same_user[correo].append(contraseña)
+            user = correo.split("@")[0]
+            if user not in same_user:
+                same_user[user] = []
+            same_user[user].append(contraseña)
 
 print("Processing data")
 workbook = openpyxl.Workbook()
 worksheet = workbook.active
 
 # Write header
-worksheet.cell(row=1, column=1).value = "Correo"
+worksheet.cell(row=1, column=1).value = "Usuario"
 worksheet.cell(row=1, column=2).value = "Contraseñas"
 
 # Write data starting from row 2
 row_index = 2
-for correo, contraseñas in same_user.items():
+for user, contraseñas in same_user.items():
     related_passwords = []
     for i in range(len(contraseñas)):
         for j in range(i + 1, len(contraseñas)):
@@ -118,7 +117,7 @@ for correo, contraseñas in same_user.items():
     # Remove duplicates and keep the order of insertion
     related_passwords = list(dict.fromkeys(related_passwords))
     if related_passwords:
-        worksheet.cell(row=row_index, column=1).value = correo
+        worksheet.cell(row=row_index, column=1).value = user
         worksheet.cell(row=row_index, column=2).value = ", ".join(related_passwords)
         row_index += 1
 
