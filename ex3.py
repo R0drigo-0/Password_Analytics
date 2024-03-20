@@ -1,11 +1,10 @@
 import os
 import pandas as pd
-from itertools import product
-
+from itertools import  product
+from Levenshtein import distance
 
 def password_similarity(pass1, pass2):
     return distance(pass1, pass2)
-
 
 same_user = {}
 folder_path = "pass/"
@@ -37,7 +36,7 @@ for user1, passwords1 in same_user.items():
     if len(passwords1) > 1:
         related = set()
         for user2, passwords2 in same_user.items():
-            if user1 != user2:
+            if user1 != user2: 
                 for pass1, pass2 in product(passwords1, passwords2):
                     similarity = password_similarity(pass1, pass2)
                     if similarity < 3:
@@ -46,14 +45,12 @@ for user1, passwords1 in same_user.items():
         if related:
             related_passwords.append((user1, list(related)))
 
-df = pd.DataFrame(related_passwords, columns=["Usuario", "Contraseñas"])
+df = pd.DataFrame(related_passwords, columns=['Usuario', 'Contraseñas'])
 
-excel_file = "password_relations.xlsx"
+excel_file = 'password_relations.xlsx'
 df.to_excel(excel_file, index=False)
 
-print(
-    f"Se ha guardado la información de las contraseñas relacionadas en el archivo '{excel_file}'."
-)
+print(f"Se ha guardado la información de las contraseñas relacionadas en el archivo '{excel_file}'.")
 
 total_users = len(same_user)
 users_with_related_passwords = len(df)
