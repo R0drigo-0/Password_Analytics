@@ -57,3 +57,10 @@ excel_file = 'password_relations.xlsx'
 df.to_excel(excel_file, index=False)
 
 print(f"Se ha guardado la información de las contraseñas relacionadas en el archivo '{excel_file}'.")
+
+# Calcular el porcentaje de contraseñas relacionadas
+total_users = len(same_user)
+users_with_related_passwords = len(df)
+percentage = (users_with_related_passwords / total_users) * 100
+
+print(f"Porcentaje de usuarios con contraseñas relacionadas: {percentage:.2f}%")
